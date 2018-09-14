@@ -1,7 +1,7 @@
-import app from './app';
+import App from './app';
 
-const server = app.listen(app.get("port"), () => {
-    console.log("server is running on port", app.get("port"));
+const server = App.listen(App.get("port"), () => {
+    console.log("server is running on port", App.get("port"));
 });
 
 export default server;
