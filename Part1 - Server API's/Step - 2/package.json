@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "start": "tsc && nodemon dist/server.js"
+    "start": "nodemon --exec ts-node src/server.ts"
   },
   "author": "ShahrukhMushtaq",
   "license": "ISC",
@@ -14,7 +14,8 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "mysql": "^2.16.0",
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "typescript": "^3.0.3"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
@@ -23,6 +24,22 @@
     "@types/jest": "^23.3.2",
     "@types/mysql": "^2.15.5",
     "@types/node": "^10.9.4",
-    "jest": "^23.6.0"
+    "jest": "^23.6.0",
+    "ts-jest": "^23.1.4",
+    "ts-node": "^7.0.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }
