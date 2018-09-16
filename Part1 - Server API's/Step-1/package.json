@@ -1,23 +1,27 @@
 {
-  "name": "step-1",
+  "name": "todoapp_step1",
   "version": "1.0.0",
-  "description": "REST API with mongoDB",
-  "main": "server.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node build/app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "OsamaHaroon53",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "mongoose": "^5.2.14"
+    "mongodb": "^3.1.6",
+    "mongoose": "^5.2.15"
   },
   "devDependencies": {
     "@types/express": "^4.16.0",
-    "@types/mongoose": "^5.2.12",
+    "@types/mongoose": "^5.2.13",
     "@types/node": "^10.9.4",
+    "expect": "^23.6.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0",
     "typescript": "^3.0.3"
   }
 }
