@@ -45,11 +45,23 @@ class TodoRoute {
         })
     }
 
+    updateTodo(req: Request, res: Response){
+        var { _id } = req.params;
+        var {title , description , done} = req.body
+        Todo.findOneAndUpdate(_id,{title , description , done},{new:true}).then((result) => {
+            res.status(201).send(result);
+        }).catch((err) => {
+            res.status(400).send(err);
+        })
+    }
+
     routes() {
         this.router.get("/", this.getAllTodo);
         this.router.post("/", this.PostTodo);
         this.router.get("/:_id", this.getTodo);
         this.router.delete("/:_id",this.deleteTodo);
+        this.router.put("/:_id",this.updateTodo);
+
 
     }
 }

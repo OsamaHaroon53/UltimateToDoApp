@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+mongoose.set('useFindAndModify', false);
 
 const TodoSchema : mongoose.Schema = new mongoose.Schema({
     title:{
