@@ -2,7 +2,7 @@
   "name": "todoapp_part_1_step1",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/server.js",
   "scripts": {
     "start": "node build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
