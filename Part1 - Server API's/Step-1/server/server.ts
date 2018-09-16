@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
-
+const mongoose = require("mongoose");
+import todoRouter from "./routes/todo"
 
 class Server{
     app:express.Application;
@@ -11,17 +12,15 @@ class Server{
     }
 
     private config() : void{
-        const mongoose = require("mongoose");
+        const DB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/UltimateTodoApp";
         mongoose.Promise = global.Promise;
-        mongoose.connect(process.env.MONGODB_URI||"mongodb://localhost:27017/UltimateTodoApp");
-        this.app.set("port",process.env.PORT||3000);
+        mongoose.connect(DB_URI,{ useNewUrlParser: true },(err,res)=> err && console.log(`Failed To Connect To The Following DB_URIs ${DB_URI}`) || console.log(`Connected To The Following DB_URI ${DB_URI}`));
+        this.app.set("port",process.env.PORT || 3000);
         this.app.use(bodyParser.json());
     }
     private routes() : void{
 
-        this.app.use("/",(req,res)=>{
-            res.send("Working")
-        })
+        this.app.use("/todo/api/v1.0/tasks",todoRouter)
     }
 }
 
