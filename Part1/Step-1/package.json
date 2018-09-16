@@ -2,9 +2,9 @@
   "name": "todoapp_part_1_step1",
   "version": "1.0.0",
   "description": "",
-  "main": "build/server.js",
+  "main": "/Part1 - Server API's/step-1/build/server.js",
   "scripts": {
-    "start": "node build/server.js",
+    "start": "node /Part1 - Server API's/step-1/build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
