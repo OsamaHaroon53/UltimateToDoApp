@@ -42,22 +42,42 @@ describe("Todo Server Test", () => {
             .expect(201)
             .expect((res) => {
                 expect(res.body).toHaveProperty("_id")
-                expect(res.body).toHaveProperty("title","Testing Todo Post")
-                expect(res.body).toHaveProperty("description","Checking Post Route");           
+                expect(res.body).toHaveProperty("title", "Testing Todo Post")
+                expect(res.body).toHaveProperty("description", "Checking Post Route");
             }).end((err, res) => {
-                    if (err) {
-                        return done(err);
-                    }
-                    Todo.find().then((result) => {
-                        if (result.length === data.length + 1) {
-                            done();
-                            
-                        }
-                    }).catch((e) => done(e))
-            
-            })
-            
+                if (err) {
+                    return done(err);
+                }
+                Todo.find().then((result) => {
+                    if (result.length === data.length + 1) {
+                        done();
 
+                    }
+                }).catch((e) => done(e))
+
+            })
+
+
+
+
+
+    })
+
+
+    it("/todo/api/v1.0/tasks/:_id  should decrease the legnth by 1", (done) => {
+        var _id = data[0]._id
+        request(server)
+            .get(`/todo/api/v1.0/tasks/${_id}`)
+            .expect(200)
+            .expect((res) => {
+                expect(res.body).toHaveProperty("_id", _id.toHexString())
+            }).end((err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                done()
+
+            })
     })
 
 })
