@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node server/server.ts && node build/server.js",
     "test": "mocha -r ts-node/register server/**/*.test.ts && build/**/*.test.js"
+    
   },
   "engines": {
     "node": "10.10.0"

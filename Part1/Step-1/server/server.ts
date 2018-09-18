@@ -25,7 +25,8 @@ class Server{
 }
 
 const server =  new Server().app;
-server.listen(server.get("port"),()=>{
+var port = server.get("port");
+server.listen(port,()=>{
     console.log(`Server Is Running On  ${server.get("port")}`);
 })
 module.exports = {server};
