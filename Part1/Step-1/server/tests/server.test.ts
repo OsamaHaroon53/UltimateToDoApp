@@ -3,8 +3,13 @@ const expect = require("expect");
 
 const { server } = require("../server");
 import Todo from "../models/todo";
-import { log } from "util";
+import { ObjectID } from "bson";
 var data;
+var sampleId = new ObjectID()
+var sample = [
+    { _id: sampleId, title: "Old Todo", description: "Testing" },
+    { _id: sampleId, title: "New Todo", description: "Testing", done: true }
+]
 
 
 beforeEach(() => {
@@ -32,18 +37,16 @@ describe("Todo Server Test", () => {
 
 
     it("/todo/api/v1.0/tasks/  post  should increase the length by 1", (done) => {
-        var test = {
-            title: "Testing Todo Post",
-            description: "Checking Post Route",
-        }
+
         request(server)
             .post("/todo/api/v1.0/tasks/")
-            .send(test)
+            .send(sample[0])
             .expect(201)
             .expect((res) => {
-                expect(res.body).toHaveProperty("_id")
-                expect(res.body).toHaveProperty("title", "Testing Todo Post")
-                expect(res.body).toHaveProperty("description", "Checking Post Route");
+                expect(res.body._id).toBe(sample[0]._id.toHexString())
+                expect(res.body.title).toBe(sample[0].title)
+                expect(res.body.description).toBe(sample[0].description);
+                // sample = res.body;
             }).end((err, res) => {
                 if (err) {
                     return done(err);
@@ -56,29 +59,75 @@ describe("Todo Server Test", () => {
                 }).catch((e) => done(e))
 
             })
-
-
-
-
-
     })
 
-
-    it("/todo/api/v1.0/tasks/:_id  should decrease the legnth by 1", (done) => {
-        var _id = data[0]._id
+    it("/todo/api/v1.0/tasks/:_id  should should return the same todo", (done) => {
+        var { _id } = sample[0];
         request(server)
             .get(`/todo/api/v1.0/tasks/${_id}`)
             .expect(200)
             .expect((res) => {
-                expect(res.body).toHaveProperty("_id", _id.toHexString())
+                expect(res.body._id).toBe(sample[0]._id.toHexString())
+                expect(res.body.title).toBe(sample[0].title)
+                expect(res.body.description).toBe(sample[0].description);
+            })
+            .end((err, res) => {
+                if (err) {
+                    return done(err)
+                }
+                done();
+            })
+    })
+
+
+    it("/todo/api/v1.0/tasks/:_id  should should Update the same todo", (done) => {
+        var { _id } = sample[0];
+        var { title, description } = sample[1]
+        request(server)
+            .put(`/todo/api/v1.0/tasks/${_id}`)
+            .send(sample[1])
+            .expect(201)
+            .expect((res) => {
+                expect(res.body._id).toBe(sample[1]._id.toHexString())
+                expect(res.body.title).toBe(title)
+                expect(res.body.description).toBe(description);
+
+            })
+            .end((err, res) => {
+                if (err) {
+                    return done(err)
+                }
+                done();
+            })
+    })
+
+
+    it("/todo/api/v1.0/tasks/:_id  should decrease the legnth by 1", (done) => {
+        var {_id} = sample[1];
+        var { title, description } = sample[1]
+        request(server)
+            .delete(`/todo/api/v1.0/tasks/${_id}`)
+            .expect(200)
+            .expect((res) => {
+                expect(res.body._id).toBe(sample[1]._id.toHexString())
+                expect(res.body.title).toBe(title)
+                expect(res.body.description).toBe(description);
             }).end((err, res) => {
                 if (err) {
                     return done(err);
                 }
-                done()
+                Todo.find().then((result) => {
+                    if (result.length === data.length - 1) {
+                        done();
 
+                    }
+                }).catch((e) => done(e))
             })
     })
+
+
+
+
 
 })
 

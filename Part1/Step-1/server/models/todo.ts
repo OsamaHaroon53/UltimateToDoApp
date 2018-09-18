@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+import { ObjectId, ObjectID } from "bson";
 mongoose.set('useFindAndModify', false);
 
 const TodoSchema : mongoose.Schema = new mongoose.Schema({
@@ -17,7 +18,12 @@ const TodoSchema : mongoose.Schema = new mongoose.Schema({
     done:{
         type:Boolean,
         default:false
+    },
+    _id:{
+        type:Object,
+        required:true
     }
+
 })
 
 
