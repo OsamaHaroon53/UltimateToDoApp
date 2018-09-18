@@ -28,4 +28,4 @@ const server =  new Server().app;
 server.listen(server.get("port"),()=>{
     console.log(`Server Is Running On  ${server.get("port")}`);
 })
-module.exports = server;
+module.exports = {server};

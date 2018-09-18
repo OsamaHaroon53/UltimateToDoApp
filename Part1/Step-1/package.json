@@ -2,13 +2,13 @@
   "name": "todoapp_part_1_step1",
   "version": "1.0.0",
   "description": "",
-  "main": "/Part1/Step-1/build/server.js",
+  "main": "build/server.js",
   "scripts": {
-    "start": "node /Part1/Step-1/build/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node server/server.ts && node build/server.js",
+    "test": "mocha -r ts-node/register server/**/*.test.ts && build/**/*.test.js"
   },
   "engines": {
-    "node":"10.10.0"
+    "node": "10.10.0"
   },
   "keywords": [],
   "author": "Irfan Ali",
@@ -25,7 +25,10 @@
     "@types/node": "^10.9.4",
     "expect": "^23.6.0",
     "mocha": "^5.2.0",
+    "mocha-typescript": "^1.1.17",
+    "nodemon": "^1.18.4",
     "supertest": "^3.3.0",
+    "ts-node": "^7.0.1",
     "typescript": "^3.0.3"
   }
 }
