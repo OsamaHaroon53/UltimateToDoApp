@@ -1,0 +1,24 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Update</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let curr of todolist">
+      <td>{{curr.name}}</td>
+      <td>{{curr.email}}</td>
+      <td>{{curr.todoDetail}}</td>
+      <td>
+        <button class="btn btn-info" (click)="onUpdate(curr)">Update</button>
+      </td>
+      <td>
+          <button class="btn btn-danger" (click)="onDelete(curr.$key)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
