@@ -1,63 +1,72 @@
 const request = require('supertest');
 import app from '../src/app';
-import { todo } from '../src/controllers/todo';
-import sequelize from '../src/sequelize';
+import { Sequelize } from 'sequelize-typescript';
 
-import iconv from 'iconv-lite';
-import encodings from 'iconv-lite/encodings';
-iconv.encodings = encodings;
-
-function sum(a: number, b: number) {
-    return a + b;
-}
-
-test("add 1 + 2 to equal 3", () => {
-    expect(sum(1, 2)).toBe(3);
+const sequelize = new Sequelize({
+    dialect: 'mysql',
+    operatorsAliases: Sequelize.Op as any,
+    database: 'todo',
+    username: 'root',
+    password: 'root',
+    modelPaths: [__dirname + '../src/models']
 });
-
+let server: any;
+let sampleTodo: any;
 
 describe("/todo/api/v1.0/", async () => {
-  beforeEach(function () { 
-    sequelize.sync({ force: false });
-    jest.setTimeout(30000);
-    app.listen(app.get("port"), () => {
-        console.log("server is running on port");
+    beforeEach(function () {
+        server = require('../src/server');
+        sampleTodo = {
+            title: "Write test",
+            description: "Testing post API",
+            done: true
+        };
+        sequelize
+            .authenticate()
+            .then(() => {
+                console.log('Connection has been established successfully.');
+            })
+            .catch(err => {
+                console.error('Unable to connect to the database:', err);
+            });
     });
-  });
-  afterEach(function () {
-    app.removeAllListeners();
-  });
     it("GET /", async () => {
-        jest.setTimeout(30000);
         const res = await request(app).get('/');
         expect(res.text).toEqual("Welcome to Express as a TypeScript");
         expect(res.statusCode).toEqual(200);
     });
 
     it("GET /tasks", async () => {
-        
-        const res = await request(todo).get('/tasks');
-        expect(res.text).toEqual("Not Found");
-    }); 
+        const res = await request(server).get('/todo/api/v1.0/tasks');
+        expect(res.statusCode).toEqual(200);
+    });
 
-    // it("GET /tasks/:id", async () => {
-    //     const res = await request(todo).get('/tasks/:id');
+    it("GET /tasks/:id", async () => {
+        const res = await request(server).get('/todo/api/v1.0/tasks/1');
+        expect(res.statusCode).toEqual(200);
+    });
 
-    // });
+    it("POST /tasks", async () => {
+        const res = await request(server)
+            .post('/todo/api/v1.0/tasks')
+            .send(sampleTodo);
+        expect(res.status).toBe(200);
+    });
 
-    // it("POST /tasks", async () => {
-    //     const res = await request(todo).post('/tasks/:id');
+    it("PUT /tasks/:id", async () => {
+        const res = await request(server).put('/todo/api/v1.0/tasks/13')
+            .send({ done: false });
+        expect(res.statusCode).toEqual(200);
 
-    // });
+    });
 
-    // it("PUT /tasks/:id", async () => {
-    //     const res = await request(todo).put('/tasks/:id');
+    it("DELETE /tasks/:id", async () => {
+        const res = await request(server).delete('/todo/api/v1.0/tasks/15');
+        expect(res.statusCode).toEqual(200);
+    });
 
-    // });
-
-    // it("DELETE /tasks/:id", async () => {
-    //     const res = await request(todo).delete('/tasks/:id');
-
-    // });
-
-})
+    afterEach(async () => {
+        await server.close();
+        // sequelize.close();
+    });
+});
