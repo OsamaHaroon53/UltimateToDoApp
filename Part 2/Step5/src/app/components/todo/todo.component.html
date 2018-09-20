@@ -1,5 +1,5 @@
 <div class="row">
-  <form style="text-align:center" class="form-inline" [formGroup]="todoForm" (ngSubmit)="onSubmit(todoForm)">
+  <form style="text-align:center" class="form-inline" [formGroup]="todoForm" (ngSubmit)="onSubmit(todoForm.value)">
     <div class="form-group">
       <label for="title">Title:&nbsp;</label>
       <input type="text" class="form-control" formControlName="title" id="title">
@@ -11,7 +11,7 @@
     </div>
     &nbsp;
     <div class="checkbox">
-      <label><input type="checkbox" formControlName="isComplete"> IsCompleted</label>
+      <label><input type="checkbox" formControlName="done"> IsCompleted</label>
     </div>
     &nbsp;
     <input type="submit" value="Submit" [disabled]="todoForm.invalid" class="btn btn-primary">

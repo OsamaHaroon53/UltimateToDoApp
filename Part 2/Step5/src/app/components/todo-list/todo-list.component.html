@@ -1,6 +1,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>ID</th>
       <th>Title</th>
       <th>Description</th>
       <th>Status</th>
@@ -10,14 +11,15 @@
   </thead>
   <tbody>
     <tr *ngFor="let curr of todolist">
-      <td>{{curr.name}}</td>
-      <td>{{curr.email}}</td>
-      <td>{{curr.todoDetail}}</td>
+      <td>{{curr.id}}</td>
+      <td>{{curr.title}}</td>
+      <td>{{curr.description}}</td>
+      <td>{{curr.done}}</td>
       <td>
         <button class="btn btn-info" (click)="onUpdate(curr)">Update</button>
       </td>
       <td>
-          <button class="btn btn-danger" (click)="onDelete(curr.$key)">Delete</button>
+        <button class="btn btn-danger" (click)="onDelete(curr.id)">Delete</button>
       </td>
     </tr>
   </tbody>
