@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodoListComponent implements OnInit {
 
-  todolist;
+  todolist: any;
 
   constructor(private list: TodoService) { }
 
@@ -24,7 +24,7 @@ export class TodoListComponent implements OnInit {
       .subscribe(res => {
         if (res) {
           this.todolist = this.list.getList()
-            .subscribe(res => {              
+            .subscribe(res => {
               this.todolist = res;
               location.reload();
             });
@@ -32,4 +32,14 @@ export class TodoListComponent implements OnInit {
       })
   }
 
+  onUpdate(todo) {
+    // console.log(todo);
+    let title = window.prompt("Enter New title", "Sample");
+    let description = window.prompt("Enter New description", "Sample");
+    let isDone = window.prompt("Enter Status", "");
+    let done = Boolean(isDone);
+    // console.log(title,description,done)
+    this.list.updateList({ title: title, description: description, done: done }, todo.id)
+      .subscribe(res => console.log(res))
+  }
 }
