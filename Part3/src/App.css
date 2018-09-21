@@ -1,28 +1,116 @@
-.App {
+html,body{
+  /* background: #face9b; */
+  min-height:100%;
+  padding: 0;
+  margin: 0;
+}
+body{
+  background: radial-gradient(circle,#f3f3f3,#cfcfcf);
+
+}
+*{
+  font-family: 'Oswald', sans-serif;
+  color: rgb(110, 110, 110);
+}
+.container{
+  padding: 1%;
   text-align: center;
 }
+.container h1{
+  font-weight: normal;
+  margin-bottom:2%; 
+  font-size: 40px;
+}
+hr{
+  opacity:0.5;
+  width: 70%;
+  margin: 2% auto;
+}
+.container input.field{
+  display: block;
+  width: 600px;
+  font-size: 16px;
+  margin: 10px auto;
+  padding: 8px 20px; 
+  border-radius:2px;
+  border: 1px solid rgb(206, 206, 206); 
+  color: rgb(80, 80, 80);
+  background: rgb(240, 240, 240);
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  box-shadow: 0px 0px 20px #d6d6d6
+}
+.todos{
+  padding: 0;
+}
+.todo{
+  width: 615px;
+  border: 1px solid rgb(206, 206, 206); 
+  margin: 20px auto;
+  list-style: none;
+  padding: 10px 10px;
+  background: rgb(240, 240, 240);
+  box-shadow: 0px 0px 20px #d6d6d6
+
+}
+.container input.field:focus{
+  outline: none;
+  border: 1px solid rgb(185, 185, 185);
+}
+.container input[type=button]{
+  width:640px;
+  background: #e7e7e7;
+}
+.container input[type=button]:hover{
+  cursor: pointer;
+  background: #e0e0e0;
+}
+.checkBox{
+  margin:0px 10px;
+}
+.todo{
+  text-align: left;
+  text-align: justify;
+}
+.des{
+  display: block;
+  font-size: 14px;
+  margin-left: 38px;
+  margin-top: 5px;
+}
+.todo input.checkBox{
+  position: relative;
+  top: 10px;
+}
+.btnGrp{
+  float: right;
+  position: relative;
+  /* top: 3px; */
+}
+@media (max-width:700px){
+  .container input.field{
+      width: 450px;
+  }
+  .todo{
+      width: 465px;
+  }
+  
+  .container input[type=button]{
+      width: 490px;
+  }
+}
+@media (max-width:500px){
+  .container h1{
+      margin-bottom: 8%;
+  }
+  .todo{
+      width: 85%;
+  }
+  .container input.field{
+      width: 80%;
+      font-size: 18px;
+  }
+.container input[type=button]{
+  width:90%;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
