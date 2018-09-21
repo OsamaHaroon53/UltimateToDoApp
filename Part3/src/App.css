@@ -14,7 +14,7 @@ body{
 }
 .container{
   padding: 1%;
-  text-align: center;
+  text-align: center !important;
 }
 .container h1{
   font-weight: normal;
@@ -30,7 +30,7 @@ hr{
   display: block;
   width: 600px;
   font-size: 16px;
-  margin: 10px auto;
+  margin: 10px auto !important;
   padding: 8px 20px; 
   border-radius:2px;
   border: 1px solid rgb(206, 206, 206); 
