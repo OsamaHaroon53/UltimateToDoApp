@@ -1,0 +1,23 @@
+<div class="row">
+  <form style="text-align:center" class="form-inline" [formGroup]="todoForm" (ngSubmit)="onSubmit(todoForm.value)">
+    <div class="form-group">
+      <label for="title">Title:&nbsp;</label>
+      <input type="text" class="form-control" formControlName="title" id="title">
+    </div>
+    &nbsp;
+    <div class="form-group">
+      <label for="desc">Description:&nbsp;</label>
+      <input type="text" class="form-control" id="desc" formControlName="description">
+    </div>
+    &nbsp;
+    <div class="checkbox">
+      <label><input type="checkbox" formControlName="done"> IsCompleted</label>
+    </div>
+    &nbsp;
+    <input type="submit" value="Submit" [disabled]="todoForm.invalid" class="btn btn-primary">
+  </form>
+</div>
+
+<br>
+
+<todo-list></todo-list>

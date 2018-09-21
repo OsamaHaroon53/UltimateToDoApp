@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from "body-parser";
 import mysql from "mysql";
 import cors from "cors";
+import { todo } from "./controllers/todo";
 
 
 class App {
@@ -44,6 +45,7 @@ class App {
         this.app.use('/', router.get('/', (req, res) => {
             res.send("Welcome to Express as a TypeScript");
         }));
+        this.app.use('/todo/api/v1.0', todo);
 
 
     }

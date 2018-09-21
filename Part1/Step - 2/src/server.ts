@@ -1,7 +1,9 @@
-import App from './app';
+import app from './app';
+import sequelize from './sequelize';
 
-const server = App.listen(App.get("port"), () => {
-    console.log("server is running on port", App.get("port"));
+const server = app.listen(app.get("port"), () => {
+    sequelize.sync({ force: false });
+    console.log("server is running on port", app.get("port"));
 });
 
-export default server;
+module.exports = server;
