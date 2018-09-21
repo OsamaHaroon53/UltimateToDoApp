@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import swal from 'sweetalert'
 import * as firebase from "firebase"
@@ -12,13 +11,13 @@ class App extends Component {
       fetched: false,
       title: "",
       description: "",
+      update: false
     }
   }
 
 
   componentDidMount() {
     const database = firebase.database();
-    var { data } = this.state;
     database.ref('todos').on("value", (snap) => {
       if (!snap.val()) {
         this.setState({
@@ -27,8 +26,6 @@ class App extends Component {
         return;
       }
 
-      console.log(snap.val());
-
       this.setState({
         data: snap.val(),
         fetched: true,
@@ -36,28 +33,29 @@ class App extends Component {
       })
     })
   }
-
-
-  renderTodo() {
-    var { data } = this.state;
-    var todos = [];
-    for (var i in data) {
-      todos.push(
-        <li className="todo" id={data[i]._id + "li"} key={data[i]._id}>
-          <input type="checkbox" className="checkBox" name="" id="" />
-          <span>{data[i].title}</span>
-          <span className="btnGrp">
-            <button className="btn" onClick={() => this.editTodo(data[i]._id)}>Edit</button>
-            <button className="btn" onClick={() => this.deleteTodo(data[i]._id)}>Delete</button>
-          </span>
-          <span className="des">{data[i].description}</span>
-        </li>
-      )
-    }
-
-    return todos;
-
-
+  deleteTodo(id) {
+    const { data } = this.state;
+    const database = firebase.database();
+    database.ref(`todos/${id}`).set({}).then(() => {
+      swal({
+        icon: "success",
+        title: "deleted"
+      })
+      delete data[id]
+      this.setState({
+        data
+      })
+    })
+  }
+  editTodo(id) {
+    const { data } = this.state;
+    this.setState({
+      title: data[id].title,
+      description: data[id].description,
+      update: true
+    })
+  }
+  update(){
 
   }
 
@@ -65,7 +63,6 @@ class App extends Component {
     var data = {};
     data[ev.target.name] = ev.target.value;
     this.setState(data)
-
   }
   validate() {
     const { title, description } = this.state
@@ -101,6 +98,7 @@ class App extends Component {
     return true;
   }
 
+  
 
   addTodo() {
     var validate = this.validate();
@@ -140,9 +138,54 @@ class App extends Component {
   }
 
 
-  render() {
-    const { data, title, description, fetched } = this.state;
 
+
+  renderTodo() {
+    var { data } = this.state;
+    var remaining = 0;
+    var completed = 0;
+    var todos = [];
+    for (var i in data) {
+      if (!data[i].done) {
+        remaining++;
+        todos.unshift(
+          <li className="todo" id={data[i]._id + "li"} key={data[i]._id}>
+            <input type="checkbox" className="checkBox" name="" id="" />
+            <span>{data[i].title}</span>
+            <span className="btnGrp">
+              <button className="btn" onClick={this.editTodo.bind(this, data[i]._id)}>Edit</button>
+              <button className="btn" onClick={this.deleteTodo.bind(this, data[i]._id)}>Delete</button>
+            </span>
+            <span className="des">{data[i].description}</span>
+          </li>
+        )
+      } else {
+        completed++;
+        todos.push(
+          <li className="todo" id={data[i]._id + "li"} key={data[i]._id}>
+            <input type="checkbox" className="checkBox" name="" id="" />
+            <del>{data[i].title}</del>
+            <span className="btnGrp">
+              <button className="btn" onClick={this.deleteTodo.bind(this, data[i]._id)}>Delete</button>
+            </span>
+            <del className="des">{data[i].description}</del>
+          </li>
+        )
+      }
+
+    }
+
+    return ({ todos, remaining, completed });
+
+  }
+
+
+
+  render() {
+    const { data, title, description, fetched, update } = this.state;
+    var operator = update ? "Update" : "Add"
+    var frmEv = update ? () => this.update() : () => this.addTodo()
+    var list = fetched && data && this.renderTodo();
     return (
       <div className="container">
         <h1>TodoApp</h1><hr />
@@ -155,12 +198,13 @@ class App extends Component {
           id="description" className="txtBox field"
           value={description} onChange={(ev) => this.entries(ev)} />
 
-        <input type="button" className="field" value="Add" onClick={() => this.addTodo()} /><hr />
+        <input type="button" className="field" value={operator} onClick={frmEv} /><hr />
 
         <ul className="todos">
           {!fetched && "Loading...."}
           {fetched && !data && "No Task Yet"}
-          {fetched && data && this.renderTodo()}
+          {list && list.todos}
+          {fetched && data && <p>Task Remaining : {list && list.remaining} | Finished : {list && list.completed} </p>}
         </ul>
       </div>
     );
