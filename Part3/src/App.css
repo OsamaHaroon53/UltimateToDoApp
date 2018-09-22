@@ -36,7 +36,7 @@ hr{
   border: 1px solid rgb(206, 206, 206); 
   color: rgb(80, 80, 80);
   background: rgb(240, 240, 240);
-
+  position: static;
   box-shadow: 0px 0px 20px #d6d6d6
 }
 .todos{

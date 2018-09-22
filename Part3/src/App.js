@@ -11,7 +11,7 @@ class App extends Component {
       fetched: false,
       title: "",
       description: "",
-      update: false
+      update: false,
     }
   }
 
@@ -47,15 +47,36 @@ class App extends Component {
       })
     })
   }
+
   editTodo(id) {
     const { data } = this.state;
     this.setState({
       title: data[id].title,
       description: data[id].description,
-      update: true
+      update: true,
+      updateObj: data[id]
     })
   }
-  update(){
+  update() {
+    const { updateObj, title, description } = this.state;
+    const database = firebase.database();
+    database.ref(`todos/${updateObj._id}`).set({
+      title,
+      description,
+      _id: updateObj._id,
+      done: updateObj.done
+    }).then(() => {
+      swal({
+        icon: "success",
+        title: "Updated"
+      })
+      this.setState({
+        update: false,
+        updateId: null,
+        title: "",
+        description: ""
+      })
+    })
 
   }
 
@@ -98,7 +119,7 @@ class App extends Component {
     return true;
   }
 
-  
+
 
   addTodo() {
     var validate = this.validate();
@@ -137,6 +158,18 @@ class App extends Component {
     })
   }
 
+  done(id) {
+    const { data } = this.state;
+     console.log(document.querySelector(`#${id}check`).checked,data[id].title) 
+    // const database = firebase.database();
+    // database.ref(`todos/${id}`).set({
+    //   title:data[id].title,
+    //   description:data[id].description,
+    //   _id:data[id]._id,
+    //   done:document.querySelector(`#${id}check`).checked
+    // })
+
+  }
 
 
 
@@ -150,7 +183,7 @@ class App extends Component {
         remaining++;
         todos.unshift(
           <li className="todo" id={data[i]._id + "li"} key={data[i]._id}>
-            <input type="checkbox" className="checkBox" name="" id="" />
+            <input type="checkbox" className="checkBox" onChange={(ev) => this.done(data[i]._id)} name="" id={data[i]._id + "check"} />
             <span>{data[i].title}</span>
             <span className="btnGrp">
               <button className="btn" onClick={this.editTodo.bind(this, data[i]._id)}>Edit</button>
