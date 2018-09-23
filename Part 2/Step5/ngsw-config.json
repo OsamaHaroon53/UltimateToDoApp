@@ -1,0 +1,39 @@
+{
+  "index": "/index.html",
+  "assetGroups": [{
+    "name": "app",
+    "installMode": "prefetch",
+    "resources": {
+      "files": [
+        "/favicon.ico",
+        "/index.html",
+        "/*.css",
+        "/*.js"
+      ]
+    }
+  }, {
+    "name": "assets",
+    "installMode": "lazy",
+    "updateMode": "prefetch",
+    "resources": {
+      "files": [
+        "/assets/**"
+      ]
+    }
+  }],
+  "dataGroups": [
+    {
+      "name": "dynamic-todo-api",
+      "urls": [
+        "/todo/api/v1.0/tasks",
+        "/todo/api/v1.0/tasks/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 50,
+        "maxAge": "1h",
+        "timeout": "5s"
+      }
+    }
+  ]
+}

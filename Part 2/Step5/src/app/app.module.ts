@@ -7,6 +7,8 @@ import { TodoComponent } from './components/todo/todo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [TodoService],
   bootstrap: [AppComponent]
