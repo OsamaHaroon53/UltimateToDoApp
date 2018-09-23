@@ -30,7 +30,8 @@ class App extends Component {
         data: snap.val(),
         fetched: true,
         title: "",
-        description: ""
+        description: "",
+        update:false
 
       })
     })
@@ -56,6 +57,13 @@ class App extends Component {
         icon: "success",
         title: "deleted"
       })
+      delete data[id]
+      this.setState({
+        data,
+        update:false,
+        title:"",
+        description:""
+      })
     }).catch(() => {
       swal({
         title: 'SomeThing Went Wrong',
@@ -71,6 +79,7 @@ class App extends Component {
 
   editTodo(id) {
     const { data } = this.state;
+    document.querySelector(`#${id}li`).classList = "todo animated infinite pulse"
     this.setState({
       title: data[id].title,
       description: data[id].description,
@@ -82,7 +91,7 @@ class App extends Component {
   // Updation Here //
 
   update() {
-    const { updateObj, title, description } = this.state;
+    const { updateObj, title, description } = this.state;    
     const database = firebase.database();
     database.ref(`todos/${updateObj._id}`).set({
       title,
@@ -94,9 +103,13 @@ class App extends Component {
         icon: "success",
         title: "Updated"
       })
+    document.querySelector(`#${updateObj._id}li`).classList = "todo animated fadeIn"
+
       this.setState({
         update: false,
         updateObj: null,
+        title:"",
+        description:""
       })
     }).catch(() => {
       swal({
@@ -213,11 +226,17 @@ class App extends Component {
     var remaining = 0;
     var completed = 0;
     var todos = [];
+    if(!Object.getOwnPropertyNames(data).length){
+      this.setState({
+        data:null
+      })
+    }
+    
     for (var i in data) {
       if (!data[i].done) {
         remaining++;
         todos.unshift(
-          <li className="todo" id={data[i]._id + "li"} key={data[i]._id}>
+          <li className="todo animated fadeIn" id={data[i]._id + "li"} key={data[i]._id}>
             <input type="checkbox" className="checkBox" onChange={this.done.bind(this, data[i]._id)} name="" id={data[i]._id} />
             <span>{data[i].title}</span>
             <span className="btnGrp">
@@ -230,7 +249,7 @@ class App extends Component {
       } else {
         completed++;
         todos.push(
-          <li className="todo" id={data[i]._id + "li"} key={data[i]._id}>
+          <li className="todo animated bounceIn" id={data[i]._id + "li"} key={data[i]._id}>
             <input type="checkbox" checked onChange={this.done.bind(this, data[i]._id)} selected="selected" className="checkBox" name="" id={data[i]._id} />
             <del>{data[i].title}</del>
             <span className="btnGrp">
@@ -256,7 +275,7 @@ class App extends Component {
     var frmEv = update ? () => this.update() : () => this.addTodo()
     var list = fetched && data && this.renderTodo();
     return (
-      <div className="container">
+      <div className="container animated fadeIn">
         <h1>TodoApp</h1><hr />
 
         <input type="text" name="title" placeholder="Enter The Title Here"
