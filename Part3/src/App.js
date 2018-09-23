@@ -29,10 +29,25 @@ class App extends Component {
       this.setState({
         data: snap.val(),
         fetched: true,
+        title:"",
+        description:""
 
       })
     })
   }
+
+  //  Managing text and description instate //
+
+  entries(ev) {
+    var data = {};
+    data[ev.target.name] = ev.target.value;
+    this.setState(data)
+  }
+
+  // done
+
+
+  // DeleteTodo //
   deleteTodo(id) {
     const { data } = this.state;
     const database = firebase.database();
@@ -41,12 +56,18 @@ class App extends Component {
         icon: "success",
         title: "deleted"
       })
-      delete data[id]
-      this.setState({
-        data
+    }).catch(() => {
+      swal({
+        title: 'SomeThing Went Wrong',
+        text: "May Be A Network Error",
+        icon: "error"
       })
     })
   }
+
+  //done
+
+  // Managing State For Update //
 
   editTodo(id) {
     const { data } = this.state;
@@ -57,6 +78,9 @@ class App extends Component {
       updateObj: data[id]
     })
   }
+
+  // Updation Here //
+
   update() {
     const { updateObj, title, description } = this.state;
     const database = firebase.database();
@@ -72,19 +96,45 @@ class App extends Component {
       })
       this.setState({
         update: false,
-        updateId: null,
-        title: "",
-        description: ""
+        updateObj: null,
+      })
+    }).catch(() => {
+      swal({
+        title: 'SomeThing Went Wrong',
+        text: "May Be A Network Error",
+        icon: "error"
       })
     })
 
   }
 
-  entries(ev) {
-    var data = {};
-    data[ev.target.name] = ev.target.value;
-    this.setState(data)
+  // done 
+
+  // done or un-done //
+
+  done(id) {
+    const { data } = this.state;
+    const database = firebase.database();
+    database.ref(`todos/${id}`).set({
+      title: data[id].title,
+      description: data[id].description,
+      _id: data[id]._id,
+      done: data[id].done ? false : true
+    }).then(() => {
+      if (data[id].done) {
+        document.querySelector(`#${id}`).checked
+        return
+      }
+      document.querySelector(`#${id}`).removeAttribute("checked")
+    })
+
+
   }
+
+  // done
+
+  // Some Validation For Adding New Todo //
+
   validate() {
     const { title, description } = this.state
     if (!title) {
@@ -119,7 +169,7 @@ class App extends Component {
     return true;
   }
 
-
+  // Adding New Todo //   
 
   addTodo() {
     var validate = this.validate();
@@ -145,10 +195,6 @@ class App extends Component {
         title: "SuccessFully",
         icon: "success"
       })
-      this.setState({
-        title: "",
-        description: ""
-      })
     }).catch(() => {
       swal({
         title: 'SomeThing Went Wrong',
@@ -158,20 +204,9 @@ class App extends Component {
     })
   }
 
-  done(id) {
-    const { data } = this.state;
-     console.log(document.querySelector(`#${id}check`).checked,data[id].title) 
-    // const database = firebase.database();
-    // database.ref(`todos/${id}`).set({
-    //   title:data[id].title,
-    //   description:data[id].description,
-    //   _id:data[id]._id,
-    //   done:document.querySelector(`#${id}check`).checked
-    // })
 
-  }
-
-
+  //JSX Render
+  //Todos Rendering With Checking Of Done Undone
 
   renderTodo() {
     var { data } = this.state;
@@ -183,7 +218,7 @@ class App extends Component {
         remaining++;
         todos.unshift(
           <li className="todo" id={data[i]._id + "li"} key={data[i]._id}>
-            <input type="checkbox" className="checkBox" onChange={(ev) => this.done(data[i]._id)} name="" id={data[i]._id + "check"} />
+            <input type="checkbox" className="checkBox" onChange={this.done.bind(this, data[i]._id)} name="" id={data[i]._id} />
             <span>{data[i].title}</span>
             <span className="btnGrp">
               <button className="btn" onClick={this.editTodo.bind(this, data[i]._id)}>Edit</button>
@@ -196,7 +231,7 @@ class App extends Component {
         completed++;
         todos.push(
           <li className="todo" id={data[i]._id + "li"} key={data[i]._id}>
-            <input type="checkbox" className="checkBox" name="" id="" />
+            <input type="checkbox" checked onChange={this.done.bind(this, data[i]._id)} selected="selected" className="checkBox" name="" id={data[i]._id} />
             <del>{data[i].title}</del>
             <span className="btnGrp">
               <button className="btn" onClick={this.deleteTodo.bind(this, data[i]._id)}>Delete</button>
@@ -213,6 +248,7 @@ class App extends Component {
   }
 
 
+  // Official Render Method //
 
   render() {
     const { data, title, description, fetched, update } = this.state;
