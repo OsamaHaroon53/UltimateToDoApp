@@ -29,8 +29,8 @@ class App extends Component {
       this.setState({
         data: snap.val(),
         fetched: true,
-        title:"",
-        description:""
+        title: "",
+        description: ""
 
       })
     })
@@ -168,7 +168,7 @@ class App extends Component {
     }
     return true;
   }
-
+  //done
   // Adding New Todo //   
 
   addTodo() {
