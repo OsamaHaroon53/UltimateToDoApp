@@ -18,28 +18,27 @@ export class TodoListComponent implements OnInit {
       })
   }
 
-  onDelete(id) {
+  onDelete(id, i) {
     console.log(id);
     this.list.delList(id)
       .subscribe(res => {
-        if (res) {
-          this.todolist = this.list.getList()
-            .subscribe(res => {
-              this.todolist = res;
-              location.reload();
-            });
-        }
-      })
+        this.todolist.splice(i, 1);
+      });
+
   }
 
-  onUpdate(todo) {
+  onUpdate(todo, i) {
     // console.log(todo);
-    let title = window.prompt("Enter New title", "Sample");
-    let description = window.prompt("Enter New description", "Sample");
-    let isDone = window.prompt("Enter Status", "");
+    let title = window.prompt("Enter New title", this.todolist[i].title);
+    let description = window.prompt("Enter New description", this.todolist[i].description);
+    let isDone = window.prompt("Enter Status", this.todolist[i].done);
     let done = Boolean(isDone);
     // console.log(title,description,done)
     this.list.updateList({ title: title, description: description, done: done }, todo.id)
-      .subscribe(res => console.log(res))
+      .subscribe(res => {
+        this.todolist[i].title = title;
+        this.todolist[i].description = description;
+        this.todolist[i].done = done;
+      })
   }
 }
