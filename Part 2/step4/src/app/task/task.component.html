@@ -1,3 +1,79 @@
-<p>
-  task works!
-</p>
+<form class="form-inline" #Todo="ngForm" (ngSubmit)="onSubmit()">
+  <div class="form-group" [class.has-error]="title.invalid && title.touched">
+    <label for="title">Title: </label>
+    <input type="text" #title="ngModel" class="form-control" id="title" name="title" required [(ngModel)]="todo.title">
+  </div>
+  <div class="form-group" [class.has-error]="description.invalid && description.touched">
+    <label for="description">Description: </label>
+    <input type="text" #description="ngModel" class="form-control" id="description" name="description" required [(ngModel)]="todo.description">
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" name="done" [(ngModel)]="todo.done"> Done</label>
+  </div>
+  <button type="submit" [disabled]="Todo.form.invalid" class="btn">ADD</button>
+</form>
+<h1>ToDo List</h1>
+<div class="alert alert-danger" role="alert" *ngIf="valid">{{this.msg}}
+  <i class="glyphicon glyphicon-remove"></i> Error!.
+</div>
+<div class="a" *ngFor="let todo of todolist; index as i">
+  <div class="dropdown">
+    <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      <span class="glyphicon glyphicon-menu-right"></span>
+      <span class="glyphicon glyphicon-check" *ngIf="todo.done"></span>
+      {{todo.title}}
+    </button>
+    <span class="right">
+      <button class="btn" (click)="onUpdateCall(i)" data-toggle="modal" data-target="#myModal">Update</button>
+      <button class="btn" (click)="onDelete(todo._id,i)">Delete</button>
+    </span>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+      <li>{{todo.description}}</li>
+    </ul>
+  </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="container">
+          <h4 class="modal-title">
+            Update ToDo
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form #mTodo="ngForm">
+            <div class="form-group" [class.has-error]="mtitle.invalid">
+              <label for="mtitle">Title: </label>
+              <input type="text" #mtitle="ngModel" class="form-control" id="mtitle" name="mtitle" required [(ngModel)]="modalTodo.title">
+            </div>
+            <div class="form-group" [class.has-error]="mdescription.invalid">
+              <label for="mdescription">Description: </label>
+              <input type="text" #mdescription="ngModel" class="form-control" id="mdescription" name="mdescription" required [(ngModel)]="modalTodo.description">
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="mdone" [(ngModel)]="modalTodo.done"> Done</label>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-1"></div>
+              <div class="col-md-4 col-xs-6">{{mTodo.value|json}}
+                <input class="btn btn-success form-control" (click)="onUpdate(modalTodo._id)" [disabled]="!(mTodo.form.valid && checkUpdate())"
+                  data-dismiss="modal" type="submit" value="Update Todo">
+              </div>
+              <div class="col-md-4 col-xs-6">
+                <input class="btn btn-danger form-control" [disabled]="mTodo.form.invalid" type="Reset" value="Reset" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

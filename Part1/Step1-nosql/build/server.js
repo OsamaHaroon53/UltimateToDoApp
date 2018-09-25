@@ -37,7 +37,7 @@ class Server {
         this.app.use('/', router.get('/', (req, res) => {
             res.status(200).send("Welcome to Express");
         }));
-        this.app.use('/api/v1.0', todo_1.default);
+        this.app.use('/todo/api/v1.0', todo_1.default);
     }
 }
 exports.default = new Server().app;

@@ -54,7 +54,7 @@ class todoApp {
     }
     // update todo
     update(req, res) {
-        todo_1.default.findByIdAndUpdate({ _id: req.params.id }, req.body)
+        todo_1.default.findOneAndUpdate({ _id: req.params.id }, req.body)
             .then((data) => {
             res.status(200).send({
                 message: 'Update task succesfully',

@@ -52,7 +52,7 @@ class Server {
     this.app.use('/', router.get('/', (req, res) => {
       res.status(200).send("Welcome to Express");
     }));
-    this.app.use('/api/v1.0', todo1);
+    this.app.use('/todo/api/v1.0', todo1);
   }
 }
 

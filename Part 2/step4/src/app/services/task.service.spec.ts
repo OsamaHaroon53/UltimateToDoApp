@@ -1,0 +1,18 @@
+import { TestBed, inject } from '@angular/core/testing';
+import { HttpModule } from '@angular/http';
+import { TaskService } from './task.service';
+
+describe('TaskService', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpModule
+      ],
+      providers: [TaskService]
+    });
+  });
+
+  it('should be created', inject([TaskService], (service: TaskService) => {
+    expect(service).toBeTruthy();
+  }));
+});
