@@ -1,6 +1,11 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { TaskComponent } from "./task/task.component";
+import { FormsModule } from "@angular/forms";
+import { HttpModule } from '@angular/http';
+// import { SwUpdate } from '@angular/service-worker';
+// import { NgswCommChannel } from '../../node_modules/@angular/service-worker/src/low_level';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -8,6 +13,11 @@ describe('AppComponent', () => {
         AppComponent,
         TaskComponent
       ],
+      imports: [
+        FormsModule,
+        HttpModule,
+      ],
+      providers: []
     }).compileComponents();
   }));
   it('should create the app', async(() => {
@@ -25,5 +35,11 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('To Do:');
+  }));
+  it('should have a app-task tag', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('app-task')).toBeTruthy();
   }));
 });

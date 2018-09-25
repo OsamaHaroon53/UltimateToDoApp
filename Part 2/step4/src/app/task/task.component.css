@@ -1,0 +1,37 @@
+.dropdown-menu{
+    margin:0 !important;
+    margin-bottom: 3px !important;
+    background-color: darkgray !important;
+    min-width: -webkit-fill-available !important;
+    position: initial !important;
+}
+.btn{
+    text-align: left !important;
+    background-color: lightgrey;
+}
+.right{
+    float: right;
+}
+.right>button{
+    margin-right: 1px;
+    background-color: darkgray !important;
+}
+.a{
+    background-color: lightgrey;
+    margin-bottom: 1px;
+}
+li{
+    padding: 0px 30px;
+}
+form>div{
+    padding:0 10px;
+}
+form>button{
+    background-color: darkgray !important;
+}
+.btn-success{
+    background-color: #398439;
+}
+.btn-danger{
+    background-color: #ac2925;
+}

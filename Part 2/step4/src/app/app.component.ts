@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+// import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'To Do';
+  constructor() { }
 }
