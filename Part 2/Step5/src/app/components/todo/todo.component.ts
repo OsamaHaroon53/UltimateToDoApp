@@ -23,7 +23,7 @@ export class TodoComponent implements OnInit {
     console.log(form);
     this.list.adList(form).subscribe(res => {
       if (res) {
-        return this.list.getList();
+        window.location.reload();
       }
     });
 
