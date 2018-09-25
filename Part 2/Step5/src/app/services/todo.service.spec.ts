@@ -1,11 +1,12 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { TodoService } from './todo.service';
+import { HttpClient, HttpHandler, HttpClientModule } from '@angular/common/http';
 
 describe('TodoService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [TodoService]
+      providers: [TodoService, HttpClientModule, HttpClient, HttpHandler]
     });
   });
 
