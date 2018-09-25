@@ -20,5 +20,20 @@
         "/assets/**"
       ]
     }
-  }]
+  }],
+    "dataGroups": [
+    {
+      "name": "dynamic-todo-api",
+      "urls": [
+        "/todo/api/v1.0/tasks",
+        "/todo/api/v1.0/tasks/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 50,
+        "maxAge": "1h",
+        "timeout": "5s"
+      }
+    }
+  ]
 }
