@@ -3,8 +3,8 @@ import { AppComponent } from './app.component';
 import { TaskComponent } from "./task/task.component";
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from '@angular/http';
-// import { SwUpdate } from '@angular/service-worker';
-// import { NgswCommChannel } from '../../node_modules/@angular/service-worker/src/low_level';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -16,6 +16,7 @@ describe('AppComponent', () => {
       imports: [
         FormsModule,
         HttpModule,
+        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
       ],
       providers: []
     }).compileComponents();
