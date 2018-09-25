@@ -6,7 +6,7 @@ todo.get('/tasks', async (req, res, next) => {
   Todo.findAll()
     .then(function (result) {
       if (result.length === 0) {
-        res.status(404).send("Not Found")
+        res.status(404).send({message:"Not Found"})
       }
       return res.send(result)
     })
@@ -19,7 +19,7 @@ todo.get('/tasks/:id', async (req, res, next) => {
   Todo.findById(req.params.id)
     .then(function (result) {
       if (!result) {
-        return res.send("Not Found")
+        return res.send({message:"Not Found"})
       }
       return res.send(result)
     })
@@ -68,9 +68,9 @@ todo.delete('/tasks/:id', async (req, res, next) => {
   })
     .then(function (result) {
       if (!result) {
-        return res.send("Record doesnot exist");
+        return res.send({message:"Record doesnot exist"});
       }
-      return res.send("Successfully deleted")
+      return res.send({message:"Successfully deleted"})
     })
     .catch(function (err) {
       return res.send(err)
