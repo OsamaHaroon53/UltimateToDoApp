@@ -7,7 +7,7 @@ import { SwUpdate } from "@angular/service-worker";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
+  title = 'The Ultimate To Do List';
   constructor(private updates: SwUpdate) {
     updates.available.subscribe(ev => {
       updates.activateUpdate().then(() => document.location.reload())
