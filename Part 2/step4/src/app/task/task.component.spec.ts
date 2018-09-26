@@ -27,13 +27,14 @@ describe('TaskComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should render all todos', () => {
-    let de = fixture.debugElement.queryAll(By.css('td'));
-    expect(de[0].nativeElement.innerHTML).toBe('123jakdkkdkdd');
-    expect(de[1].nativeElement.innerHTML).toBe('hello');
-    expect(de[2].nativeElement.innerHTML).toBe('world');
-    expect(de[3].nativeElement.innerHTML).toBe('false');
-  });
+    it('should render all description of tasks', () => {
+        let de = fixture.debugElement.query(By.css('.dropdown-menu'));
+        expect(de.nativeElement.innerText).toContain('world');
+    });
+    it('should render all title of tasks', () => {
+        let de = fixture.debugElement.query(By.css('.dropdown-toggle'));
+        expect(de.nativeElement.innerText).toContain('hello');
+    });
     it('should create', () => {
         expect(component).toBeTruthy();
     });

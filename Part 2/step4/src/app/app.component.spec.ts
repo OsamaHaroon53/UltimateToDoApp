@@ -1,11 +1,14 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { TaskComponent } from "./task/task.component";
-import { FormsModule } from "@angular/forms";
-import { HttpModule } from '@angular/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { Component } from '@angular/core';
 
+@Component({
+  selector: 'app-task',
+  template: '<p></p>'
+})
+class TaskComponent{}
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -14,8 +17,6 @@ describe('AppComponent', () => {
         TaskComponent
       ],
       imports: [
-        FormsModule,
-        HttpModule,
         ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
       ],
       providers: []

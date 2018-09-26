@@ -56,13 +56,13 @@ export class TaskComponent implements OnInit {
     return false;
   }
   onUpdate(id) {
-    this.taskService.editData('tasks/'+id,this.modalTodo).subscribe();
+    this.taskService.editData('tasks/' + id, this.modalTodo).subscribe();
   }
 }
 class todo {
   constructor(
-    title: string,
-    description: string,
-    done: boolean
+    title: String,
+    description: String,
+    done: Boolean
   ) { }
 }
