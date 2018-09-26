@@ -24,10 +24,10 @@ describe("/todo/api/v1.0/", async () => {
         sequelize
             .authenticate()
             .then(() => {
-                console.log('Connection has been established successfully.');
+                // console.log('Connection has been established successfully.');
             })
             .catch(err => {
-                console.error('Unable to connect to the database:', err);
+                // console.error('Unable to connect to the database:', err);
             });
     });
     it("GET /", async () => {
@@ -41,23 +41,36 @@ describe("/todo/api/v1.0/", async () => {
         expect(res.statusCode).toEqual(200);
     });
 
+    // it("GET /tasks should return 404 if there is not any todos", async () => {
+    //     const res = await request(server).get('/todo/api/v1.0/tasks');
+    //     expect(res.statusCode).toEqual(404);
+    // });
+
     it("GET /tasks/:id", async () => {
         const res = await request(server).get('/todo/api/v1.0/tasks/1');
         expect(res.statusCode).toEqual(200);
     });
 
+    // it("GET /tasks/:id should return 404 if the todo with the given id does not exist", async () => {
+    //     const res = await request(server).get('/todo/api/v1.0/tasks/1');
+    //     expect(res.statusCode).toEqual(404);
+    // });
+
     it("POST /tasks", async () => {
         const res = await request(server)
             .post('/todo/api/v1.0/tasks')
-            .send(sampleTodo);
-        expect(res.status).toBe(200);
+            .send(sampleTodo)
+            .then(function(result:any){
+                expect(result.body.title).toContain('Write test');
+                expect(result.body.description).toContain('Testing post API');
+                expect(result.body.done).toBeTruthy();
+            });        
     });
 
     it("PUT /tasks/:id", async () => {
         const res = await request(server).put('/todo/api/v1.0/tasks/13')
             .send({ done: false });
         expect(res.statusCode).toEqual(200);
-
     });
 
     it("DELETE /tasks/:id", async () => {
