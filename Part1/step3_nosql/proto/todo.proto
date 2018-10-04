@@ -1,0 +1,32 @@
+syntax = "proto3"; //Specify proto3 version.
+
+package Todo; //Optional: unique package name.
+
+service TodoService {
+  rpc List (Empty) returns (TodoList);
+  rpc Insert (InsertTodo) returns (Empty);
+  rpc Get (TodoId) returns (Todo);
+  rpc Remove (TodoId) returns (Empty);
+}
+
+message Todo {
+  int32 _id = 1;
+  string title = 2;
+  string description = 3;
+  bool done = 4;
+}
+message InsertTodo {
+  string title = 2;
+  string description = 3;
+  bool done = 4;
+}
+
+message TodoList {
+  repeated Todo Todo = 1;
+}
+
+message TodoId {
+  int32 _id = 1;
+}
+
+message Empty {}
