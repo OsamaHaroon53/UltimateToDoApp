@@ -16,14 +16,14 @@ describe('should return data in json format and return 201', () => {
     afterEach(async () => {
         await Task.remove({});
     });
-    it('POST /api/v1.0/tasks ,property done is passes', () => {
+    it('POST /todo/api/v1.0/tasks ,property done is passes', () => {
         let task = {
             title: 'Hello',
             description: 'Hello World',
             done: true
         };
         return request(server)
-            .post('/api/v1.0/tasks')
+            .post('/todo/api/v1.0/tasks')
             .send(task)
             .expect('Content-Type', /json/)
             .expect(201)
@@ -35,13 +35,13 @@ describe('should return data in json format and return 201', () => {
                 expect(response.body.data).toHaveProperty('done', true);
             });
     });
-    it('POST /api/v1.0/tasks ,property done is missing', () => {
+    it('POST /todo/api/v1.0/tasks ,property done is missing', () => {
         let task = {
             title: 'Hello',
             description: 'Hello World'
         };
         return request(server)
-            .post('/api/v1.0/tasks')
+            .post('/todo/api/v1.0/tasks')
             .send(task)
             .expect('Content-Type', /json/)
             .expect(201)
@@ -54,9 +54,9 @@ describe('should return data in json format and return 201', () => {
     });
 });
 describe('should return data in json format,return 200 and data should be empty', () => {
-    it('GET /api/v1.0/tasks', () => {
+    it('GET /todo/api/v1.0/tasks', () => {
         return request(server)
-            .get('/api/v1.0/tasks')
+            .get('/todo/api/v1.0/tasks')
             .expect('Content-Type', /json/)
             .expect(200)
             .then(response => {
@@ -81,9 +81,9 @@ describe('should return data in json format and return 200', () => {
     afterEach(async () => {
         await Task.remove({});
     });
-    it('GET /api/v1.0/tasks', () => {
+    it('GET /todo/api/v1.0/tasks', () => {
         return request(server)
-            .get('/api/v1.0/tasks')
+            .get('/todo/api/v1.0/tasks')
             .expect('Content-Type', /json/)
             .expect(200)
             .then(response => {
@@ -94,9 +94,9 @@ describe('should return data in json format and return 200', () => {
                 expect(response.body.data[0]).toHaveProperty('done', false);
             });
     });
-    it('GET /api/v1.0/tasks/:id', () => {
+    it('GET /todo/api/v1.0/tasks/:id', () => {
         return request(server)
-            .get('/api/v1.0/tasks/' + id)
+            .get('/todo/api/v1.0/tasks/' + id)
             .expect('Content-Type', /json/)
             .expect(200)
             .then(response => {
@@ -107,9 +107,9 @@ describe('should return data in json format and return 200', () => {
                 expect(response.body.data).toHaveProperty('done', false);
             });
     });
-    it('PUT /api/v1.0/tasks/:id', () => {
+    it('PUT /todo/api/v1.0/tasks/:id', () => {
         return request(server)
-            .put('/api/v1.0/tasks/' + id)
+            .put('/todo/api/v1.0/tasks/' + id)
             .expect('Content-Type', /json/)
             .expect(200)
             .then(response => {
@@ -120,9 +120,9 @@ describe('should return data in json format and return 200', () => {
                 expect(response.body.data).toHaveProperty('done', false);
             });
     });
-    it('DELETE /api/v1.0/tasks/:id', () => {
+    it('DELETE /todo/api/v1.0/tasks/:id', () => {
         return request(server)
-            .delete('/api/v1.0/tasks/' + id)
+            .delete('/todo/api/v1.0/tasks/' + id)
             .expect(204)
             .then(response => {
                 expect(response.body).toEqual({});
@@ -130,35 +130,35 @@ describe('should return data in json format and return 200', () => {
     });
 });
 describe('should return error in json format and return 500', () => {
-    it('GET /api/v1.0/tasks/:id, _id is Invalid', () => {
+    it('GET /todo/api/v1.0/tasks/:id, _id is Invalid', () => {
         return request(server)
-            .get('/api/v1.0/tasks/1234')
+            .get('/todo/api/v1.0/tasks/1234')
             .expect('Content-Type', /json/)
             .expect(500)
             .then(response => {
                 expect(response.body).toHaveProperty('error');
             });
     });
-    it('PUT /api/v1.0/tasks/:id, _id is Invalid', () => {
+    it('PUT /todo/api/v1.0/tasks/:id, _id is Invalid', () => {
         return request(server)
-            .put('/api/v1.0/tasks/456')
+            .put('/todo/api/v1.0/tasks/456')
             .expect('Content-Type', /json/)
             .expect(500)
             .then(response => {
                 expect(response.body).toHaveProperty('error');
             });
     });
-    it('DELETE /api/v1.0/tasks/:id, _id is Invalid', () => {
+    it('DELETE /todo/api/v1.0/tasks/:id, _id is Invalid', () => {
         return request(server)
-            .delete('/api/v1.0/tasks/123456')
+            .delete('/todo/api/v1.0/tasks/123456')
             .expect(500)
             .then(response => {
                 expect(response.body).toHaveProperty('error');
             });
     });
-    it('POST /api/v1.0/tasks, Description is missing', () => {
+    it('POST /todo/api/v1.0/tasks, Description is missing', () => {
         return request(server)
-            .post('/api/v1.0/tasks')
+            .post('/todo/api/v1.0/tasks')
             .send({
                 title: 'Hello',
                 done: true
@@ -169,9 +169,9 @@ describe('should return error in json format and return 500', () => {
                 expect(response.body).toHaveProperty('error');
             });
     });
-    it('POST /api/v1.0/tasks, Title is missing', () => {
+    it('POST /todo/api/v1.0/tasks, Title is missing', () => {
         return request(server)
-            .post('/api/v1.0/tasks')
+            .post('/todo/api/v1.0/tasks')
             .send({
                 description: 'Hello World',
                 done: true
